@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Book Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Personal Book Library</h1>
+    </header>
+    <main>
+        <section id="add-book">
+            <h2>Add New Book</h2>
+            <form id="book-form">
+                <input type="text" id="title" placeholder="Title" required>
+                <input type="text" id="author" placeholder="Author" required>
+                <input type="number" id="pages" placeholder="Number of Pages" required>
+                <select id="status">
+                    <option value="unread">Unread</option>
+                    <option value="reading">Currently Reading</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <button type="submit">Add Book</button>
+            </form>
+        </section>
+        <section id="book-list">
+            <h2>My Books</h2>
+            <div id="books"></div>
+        </section>
+    </main>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
