@@ -1,4 +1,3 @@
-// app.js
 import BookService from './bookService.js';
 import UI from './ui.js';
 
@@ -6,6 +5,7 @@ class App {
     constructor() {
         this.bookService = new BookService();
         this.ui = new UI();
+        this.editMode = false;
         this.initializeApp();
     }
 
@@ -13,7 +13,7 @@ class App {
         // Load and display books
         this.ui.displayBooks(this.bookService.getBooks());
 
-        // Add book event
+        // Add/Edit book event
         document.getElementById('book-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -23,8 +23,18 @@ class App {
             const status = document.getElementById('status').value;
 
             if(title && author && pages) {
-                const newBook = this.bookService.addBook(title, author, pages, status);
-                this.ui.addBookToList(newBook);
+                if(this.editMode) {
+                    const id = e.target.getAttribute('data-id');
+                    const updatedBook = { title, author, pages: Number(pages), status };
+                    this.bookService.updateBook(id, updatedBook);
+                    this.ui.updateBook(id, updatedBook);
+                    this.editMode = false;
+                    this.ui.showAlert('Book updated', 'success');
+                } else {
+                    const newBook = this.bookService.addBook(title, author, pages, status);
+                    this.ui.addBookToList(newBook);
+                    this.ui.showAlert('Book added', 'success');
+                }
                 this.ui.clearFields();
             } else {
                 this.ui.showAlert('Please fill in all fields', 'error');
@@ -38,6 +48,16 @@ class App {
                 this.bookService.removeBook(id);
                 this.ui.deleteBook(e.target);
                 this.ui.showAlert('Book removed', 'success');
+            }
+        });
+
+        // Edit book event
+        document.getElementById('books').addEventListener('click', (e) => {
+            if(e.target.classList.contains('edit')) {
+                const id = e.target.getAttribute('data-id');
+                const book = this.bookService.getBook(id);
+                this.ui.fillForm(book);
+                this.editMode = true;
             }
         });
     }
