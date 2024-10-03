@@ -7,6 +7,10 @@ export default class BookService {
         return this.books;
     }
 
+    getBook(id) {
+        return this.books.find(book => book.id === id);
+    }
+
     addBook(title, author, pages, status) {
         const book = {
             id: Date.now().toString(),
