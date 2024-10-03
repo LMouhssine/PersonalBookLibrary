@@ -1,4 +1,3 @@
-// ui.js
 export default class UI {
     constructor() {
         this.bookList = document.getElementById('books');
@@ -23,6 +22,18 @@ export default class UI {
         this.bookList.appendChild(bookElement);
     }
 
+    updateBook(id, updatedBook) {
+        const bookElement = document.querySelector(`[data-id="${id}"]`).parentElement;
+        bookElement.innerHTML = `
+            <h3>${updatedBook.title}</h3>
+            <p>Author: ${updatedBook.author}</p>
+            <p>Pages: ${updatedBook.pages}</p>
+            <p>Status: ${updatedBook.status}</p>
+            <button class="edit" data-id="${id}">Edit</button>
+            <button class="delete" data-id="${id}">Delete</button>
+        `;
+    }
+
     deleteBook(target) {
         if(target.classList.contains('delete')) {
             target.parentElement.remove();
@@ -34,6 +45,15 @@ export default class UI {
         document.getElementById('author').value = '';
         document.getElementById('pages').value = '';
         document.getElementById('status').value = 'unread';
+        document.getElementById('book-form').removeAttribute('data-id');
+    }
+
+    fillForm(book) {
+        document.getElementById('title').value = book.title;
+        document.getElementById('author').value = book.author;
+        document.getElementById('pages').value = book.pages;
+        document.getElementById('status').value = book.status;
+        document.getElementById('book-form').setAttribute('data-id', book.id);
     }
 
     showAlert(message, className) {
@@ -44,13 +64,5 @@ export default class UI {
         const form = document.querySelector('#book-form');
         container.insertBefore(div, form);
         setTimeout(() => document.querySelector('.alert').remove(), 3000);
-    }
-
-    fillForm(book) {
-        document.getElementById('title').value = book.title;
-        document.getElementById('author').value = book.author;
-        document.getElementById('pages').value = book.pages;
-        document.getElementById('status').value = book.status;
-        document.getElementById('book-form').setAttribute('data-id', book.id);
     }
 }
