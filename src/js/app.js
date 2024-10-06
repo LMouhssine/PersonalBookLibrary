@@ -10,13 +10,13 @@ class App {
     }
 
     initializeApp() {
-        // Load and display books
+        // Charger et afficher les livres
         this.ui.displayBooks(this.bookService.getBooks());
 
-        // Add/Edit book event
+        // Ajouter/Editer un livre
         document.getElementById('book-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
             const title = document.getElementById('title').value;
             const author = document.getElementById('author').value;
             const pages = document.getElementById('pages').value;
@@ -41,7 +41,7 @@ class App {
             }
         });
 
-        // Delete book event
+        // Supprimer un livre
         document.getElementById('books').addEventListener('click', (e) => {
             if(e.target.classList.contains('delete')) {
                 const id = e.target.getAttribute('data-id');
@@ -51,7 +51,7 @@ class App {
             }
         });
 
-        // Edit book event
+        // Modifier un livre
         document.getElementById('books').addEventListener('click', (e) => {
             if(e.target.classList.contains('edit')) {
                 const id = e.target.getAttribute('data-id');
@@ -60,6 +60,28 @@ class App {
                 this.editMode = true;
             }
         });
+
+        // Écouteurs pour la recherche et le filtre
+        document.getElementById('search').addEventListener('input', () => {
+            this.filterBooks();
+        });
+
+        document.getElementById('filter-status').addEventListener('change', () => {
+            this.filterBooks();
+        });
+    }
+
+    // Méthode pour filtrer les livres
+    filterBooks() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        const filterStatus = document.getElementById('filter-status').value;
+        const filteredBooks = this.bookService.getBooks().filter(book => {
+            const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                                  book.author.toLowerCase().includes(searchTerm);
+            const matchesStatus = filterStatus === 'all' || book.status === filterStatus;
+            return matchesSearch && matchesStatus;
+        });
+        this.ui.displayBooks(filteredBooks);
     }
 }
 
