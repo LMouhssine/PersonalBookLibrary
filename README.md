@@ -37,9 +37,3 @@ No build process or server is required as this is a client-side only application
 
 ## Usage
 Use the interface to add, view, edit, and delete books in your personal library. Data is stored in the browser's localStorage, so it will persist between sessions.
-
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-This project is open source and available under the [MIT License](LICENSE).
