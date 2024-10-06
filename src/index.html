@@ -11,6 +11,17 @@
         <h1>My Personal Book Library</h1>
     </header>
     <main>
+        <!-- Section pour la recherche et le filtre avant la liste des livres -->
+        <section id="search-filter">
+            <input type="text" id="search" placeholder="Search books...">
+            <select id="filter-status">
+                <option value="all">All</option>
+                <option value="unread">Unread</option>
+                <option value="reading">Currently Reading</option>
+                <option value="completed">Completed</option>
+            </select>
+        </section>
+
         <section id="add-book">
             <h2>Add New Book</h2>
             <form id="book-form">
@@ -25,6 +36,7 @@
                 <button type="submit">Add Book</button>
             </form>
         </section>
+
         <section id="book-list">
             <h2>My Books</h2>
             <div id="books"></div>
