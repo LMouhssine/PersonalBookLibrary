@@ -13,16 +13,16 @@ class App {
         // Charger et afficher les livres
         this.ui.displayBooks(this.bookService.getBooks());
 
-        // Ajouter/Editer un livre
+        // Ajouter/Editer un livre avec validation du formulaire
         document.getElementById('book-form').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const pages = document.getElementById('pages').value;
+            
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const pages = document.getElementById('pages').value.trim();
             const status = document.getElementById('status').value;
 
-            if(title && author && pages) {
+            if(this.validateForm(title, author, pages)) {
                 if(this.editMode) {
                     const id = e.target.getAttribute('data-id');
                     const updatedBook = { title, author, pages: Number(pages), status };
@@ -36,8 +36,6 @@ class App {
                     this.ui.showAlert('Book added', 'success');
                 }
                 this.ui.clearFields();
-            } else {
-                this.ui.showAlert('Please fill in all fields', 'error');
             }
         });
 
@@ -82,6 +80,19 @@ class App {
             return matchesSearch && matchesStatus;
         });
         this.ui.displayBooks(filteredBooks);
+    }
+
+    // Validation du formulaire
+    validateForm(title, author, pages) {
+        if(title === '' || author === '' || pages === '') {
+            this.ui.showAlert('Please fill in all fields', 'error');
+            return false;
+        }
+        if(isNaN(pages) || Number(pages) <= 0) {
+            this.ui.showAlert('Pages must be a positive number', 'error');
+            return false;
+        }
+        return true;
     }
 }
 
