@@ -11,7 +11,7 @@
         <h1>My Personal Book Library</h1>
     </header>
     <main>
-        <!-- Section pour la recherche et le filtre avant la liste des livres -->
+        <!-- Section pour la recherche, le filtre et le tri -->
         <section id="search-filter">
             <input type="text" id="search" placeholder="Search books...">
             <select id="filter-status">
@@ -19,6 +19,12 @@
                 <option value="unread">Unread</option>
                 <option value="reading">Currently Reading</option>
                 <option value="completed">Completed</option>
+            </select>
+            <!-- Ajout du tri -->
+            <select id="sort-by">
+                <option value="title">Sort by Title</option>
+                <option value="author">Sort by Author</option>
+                <option value="pages">Sort by Pages</option>
             </select>
         </section>
 

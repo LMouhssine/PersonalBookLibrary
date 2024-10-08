@@ -67,6 +67,11 @@ class App {
         document.getElementById('filter-status').addEventListener('change', () => {
             this.filterBooks();
         });
+
+        // Écouteur pour le tri
+        document.getElementById('sort-by').addEventListener('change', () => {
+            this.sortBooks();
+        });
     }
 
     // Méthode pour filtrer les livres
@@ -80,6 +85,18 @@ class App {
             return matchesSearch && matchesStatus;
         });
         this.ui.displayBooks(filteredBooks);
+    }
+
+    // Méthode pour trier les livres
+    sortBooks() {
+        const sortBy = document.getElementById('sort-by').value;
+        const sortedBooks = this.bookService.getBooks().sort((a, b) => {
+            if (sortBy === 'pages') {
+                return a[sortBy] - b[sortBy];
+            }
+            return a[sortBy].localeCompare(b[sortBy]);
+        });
+        this.ui.displayBooks(sortedBooks);
     }
 
     // Validation du formulaire
