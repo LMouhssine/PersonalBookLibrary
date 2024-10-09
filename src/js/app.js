@@ -5,7 +5,7 @@ class App {
     constructor() {
         this.bookService = new BookService();
         this.ui = new UI();
-        this.editMode = false;
+        this.editMode = false; // Initialize edit mode
         this.initializeApp();
     }
 
@@ -22,9 +22,9 @@ class App {
             const pages = document.getElementById('pages').value.trim();
             const status = document.getElementById('status').value;
 
-            if(this.validateForm(title, author, pages)) {
-                if(this.editMode) {
-                    const id = e.target.getAttribute('data-id');
+            if (this.validateForm(title, author, pages)) {
+                if (this.editMode) {
+                    const id = document.getElementById('book-form').getAttribute('data-id');
                     const updatedBook = { title, author, pages: Number(pages), status };
                     this.bookService.updateBook(id, updatedBook);
                     this.ui.updateBook(id, updatedBook);
@@ -41,8 +41,8 @@ class App {
 
         // Delete book event
         document.getElementById('books').addEventListener('click', (e) => {
-            if(e.target.classList.contains('delete')) {
-                if(confirm('Are you sure you want to delete this book?')) {
+            if (e.target.classList.contains('delete')) {
+                if (confirm('Are you sure you want to delete this book?')) {
                     const id = e.target.getAttribute('data-id');
                     this.bookService.removeBook(id);
                     this.ui.deleteBook(e.target);
@@ -53,7 +53,7 @@ class App {
 
         // Mark as read/unread event
         document.getElementById('books').addEventListener('click', (e) => {
-            if(e.target.classList.contains('mark-read')) {
+            if (e.target.classList.contains('mark-read')) {
                 const id = e.target.getAttribute('data-id');
                 const book = this.bookService.getBook(id);
                 const newStatus = book.status === 'completed' ? 'unread' : 'completed';
@@ -64,21 +64,34 @@ class App {
 
         // Edit book event
         document.getElementById('books').addEventListener('click', (e) => {
-            if(e.target.classList.contains('edit')) {
+            if (e.target.classList.contains('edit')) {
                 const id = e.target.getAttribute('data-id');
                 const book = this.bookService.getBook(id);
                 this.ui.fillForm(book);
                 this.editMode = true;
+                // Set the form data-id attribute for editing
+                document.getElementById('book-form').setAttribute('data-id', id);
             }
         });
+
+        // Dark mode toggle
+        document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
     }
 
     validateForm(title, author, pages) {
-        if(title === '' || author === '' || pages === '') {
+        if (title === '' || author === '' || pages === '') {
             this.ui.showAlert('Please fill in all fields', 'error');
             return false;
         }
-        if(isNaN(pages) || Number(pages) <= 0) {
+        if (isNaN(pages) || Number(pages) <= 0) {
             this.ui.showAlert('Pages must be a positive number', 'error');
             return false;
         }
@@ -86,4 +99,5 @@ class App {
     }
 }
 
+// Initialize the app
 const app = new App();

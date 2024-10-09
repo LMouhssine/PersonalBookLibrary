@@ -5,27 +5,82 @@
     padding: 0;
 }
 
+:root {
+    --background: #f0f2f5;
+    --text: #333;
+    --header-bg: #4a90e2;
+    --header-text: #fff;
+    --card-bg: #fff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --input-bg: #fafafa;
+    --input-border: #ddd;
+    --button-bg: #4a90e2;
+    --button-text: #fff;
+    --button-hover: #357ABD;
+    --book-title: #4a90e2;
+    --book-text: #666;
+}
+
+.dark-mode {
+    --background: #1a1a1a;
+    --text: #f0f0f0;
+    --header-bg: #2c2c2c;
+    --header-text: #fff;
+    --card-bg: #2c2c2c;
+    --card-shadow: rgba(0, 0, 0, 0.2);
+    --input-bg: #3a3a3a;
+    --input-border: #555;
+    --button-bg: #4a90e2;
+    --button-text: #fff;
+    --button-hover: #3570a5;
+    --book-title: #6aa8e8;
+    --book-text: #bbb;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: var(--background);
+    color: var(--text);
     padding: 0 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Header styles */
 header {
-    background-color: #4a90e2;
-    color: #fff;
+    background-color: var(--header-bg);
+    color: var(--header-text);
     text-align: center;
     padding: 2rem 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--card-shadow);
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
     font-size: 2.5rem;
     margin: 0;
     letter-spacing: 1px;
+}
+
+/* Dark mode toggle button */
+#dark-mode-toggle {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    width: auto;
+}
+
+#dark-mode-toggle:hover {
+    background-color: var(--button-hover);
 }
 
 /* Main container */
@@ -37,55 +92,58 @@ main {
 
 /* Titles */
 h2 {
-    color: #333;
+    color: var(--text);
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
-    border-left: 4px solid #4a90e2;
+    border-left: 4px solid var(--button-bg);
     padding-left: 1rem;
 }
 
 /* Form styles */
 form {
-    background-color: #fff;
+    background-color: var(--card-bg);
     padding: 2rem;
     margin-bottom: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--card-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input, select, button {
     width: 100%;
     padding: 1rem;
     margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 6px;
     font-size: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* Input and Select styling */
 input, select {
-    background-color: #fafafa;
+    background-color: var(--input-bg);
+    color: var(--text);
 }
 
 input:focus, select:focus {
     outline: none;
-    border-color: #4a90e2;
+    border-color: var(--button-bg);
     box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
 }
 
 /* Button styles */
 button {
-    background-color: #4a90e2;
-    color: #fff;
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none;
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
-    transition: background 0.3s ease, transform 0.1s ease;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 button:hover {
-    background-color: #357ABD;
+    background-color: var(--button-hover);
 }
 
 button:active {
@@ -101,11 +159,11 @@ button:active {
 
 /* Individual book card */
 .book {
-    background-color: #fff;
+    background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 6px 12px var(--card-shadow);
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
     opacity: 1;
 }
 
@@ -127,17 +185,27 @@ button:active {
 .book h3 {
     font-size: 1.6rem;
     margin-bottom: 0.5rem;
-    color: #4a90e2;
+    color: var(--book-title);
 }
 
 .book p {
     margin-bottom: 0.5rem;
     font-size: 1rem;
-    color: #666;
+    color: var(--book-text);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #dark-mode-toggle {
+        width: auto;
+        margin-top: 1rem;
+    }
+
     main {
         padding: 0 1rem;
     }
