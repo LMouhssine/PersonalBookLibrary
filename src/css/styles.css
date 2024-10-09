@@ -105,9 +105,21 @@ button:active {
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
 }
 
+/* Animation for adding books */
+.book {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.book.removing {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* Book hover effect */
 .book:hover {
     transform: translateY(-5px);
 }
@@ -133,4 +145,50 @@ button:active {
     #books {
         grid-template-columns: 1fr;
     }
+}
+
+/* Additional responsive styles for small screens */
+@media (max-width: 600px) {
+    main {
+        padding: 1rem;
+    }
+
+    #book-form input,
+    #book-form select,
+    #book-form button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    #search-filter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #search-filter input,
+    #search-filter select {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .book {
+        padding: 0.5rem;
+    }
+
+    .book button {
+        display: block;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
 }
