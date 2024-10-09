@@ -13,7 +13,7 @@ class App {
         // Charger et afficher les livres
         this.ui.displayBooks(this.bookService.getBooks());
 
-        // Ajouter/Editer un livre avec validation du formulaire
+        // Événement pour ajouter/modifier un livre
         document.getElementById('book-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -22,8 +22,8 @@ class App {
             const pages = document.getElementById('pages').value.trim();
             const status = document.getElementById('status').value;
 
-            if(this.validateForm(title, author, pages)) {
-                if(this.editMode) {
+            if (this.validateForm(title, author, pages)) {
+                if (this.editMode) {
                     const id = e.target.getAttribute('data-id');
                     const updatedBook = { title, author, pages: Number(pages), status };
                     this.bookService.updateBook(id, updatedBook);
@@ -39,19 +39,21 @@ class App {
             }
         });
 
-        // Supprimer un livre
+        // Remplacer l'écouteur d'événement pour supprimer un livre avec confirmation
         document.getElementById('books').addEventListener('click', (e) => {
-            if(e.target.classList.contains('delete')) {
-                const id = e.target.getAttribute('data-id');
-                this.bookService.removeBook(id);
-                this.ui.deleteBook(e.target);
-                this.ui.showAlert('Book removed', 'success');
+            if (e.target.classList.contains('delete')) {
+                if (confirm('Are you sure you want to delete this book?')) {
+                    const id = e.target.getAttribute('data-id');
+                    this.bookService.removeBook(id);
+                    this.ui.deleteBook(e.target);
+                    this.ui.showAlert('Book removed', 'success');
+                }
             }
         });
 
-        // Modifier un livre
+        // Événement pour éditer un livre
         document.getElementById('books').addEventListener('click', (e) => {
-            if(e.target.classList.contains('edit')) {
+            if (e.target.classList.contains('edit')) {
                 const id = e.target.getAttribute('data-id');
                 const book = this.bookService.getBook(id);
                 this.ui.fillForm(book);
@@ -59,7 +61,7 @@ class App {
             }
         });
 
-        // Écouteurs pour la recherche et le filtre
+        // Événements pour la recherche et le filtre
         document.getElementById('search').addEventListener('input', () => {
             this.filterBooks();
         });
@@ -68,13 +70,13 @@ class App {
             this.filterBooks();
         });
 
-        // Écouteur pour le tri
+        // Événement pour le tri
         document.getElementById('sort-by').addEventListener('change', () => {
             this.sortBooks();
         });
     }
 
-    // Méthode pour filtrer les livres
+    // Filtrer les livres selon le terme de recherche et le statut
     filterBooks() {
         const searchTerm = document.getElementById('search').value.toLowerCase();
         const filterStatus = document.getElementById('filter-status').value;
@@ -87,7 +89,7 @@ class App {
         this.ui.displayBooks(filteredBooks);
     }
 
-    // Méthode pour trier les livres
+    // Trier les livres selon le critère choisi
     sortBooks() {
         const sortBy = document.getElementById('sort-by').value;
         const sortedBooks = this.bookService.getBooks().sort((a, b) => {
@@ -99,13 +101,13 @@ class App {
         this.ui.displayBooks(sortedBooks);
     }
 
-    // Validation du formulaire
+    // Valider le formulaire
     validateForm(title, author, pages) {
-        if(title === '' || author === '' || pages === '') {
+        if (title === '' || author === '' || pages === '') {
             this.ui.showAlert('Please fill in all fields', 'error');
             return false;
         }
-        if(isNaN(pages) || Number(pages) <= 0) {
+        if (isNaN(pages) || Number(pages) <= 0) {
             this.ui.showAlert('Pages must be a positive number', 'error');
             return false;
         }
@@ -113,4 +115,5 @@ class App {
     }
 }
 
+// Initialisation de l'application
 const app = new App();
