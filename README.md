@@ -14,7 +14,7 @@ This Single Page Application (SPA) allows users to manage their personal book co
 
 ## Project Structure
 ```
-personal-book-library/
+PersonalBookLibrary/
 │
 ├── src/
 │   ├── js/

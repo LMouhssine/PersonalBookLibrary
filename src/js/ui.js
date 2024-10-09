@@ -43,9 +43,9 @@ export default class UI {
     deleteBook(target) {
         if (target.classList.contains('delete')) {
             const book = target.parentElement;
-            book.classList.add('removing'); // Ajoute la classe d'animation
+            book.classList.add('removing');
             book.addEventListener('animationend', () => {
-                book.remove(); // Supprime le livre après l'animation
+                book.remove();
             });
         }
     }
